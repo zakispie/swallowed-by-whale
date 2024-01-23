@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // TODO refactor to use new InputSystem
-        if (Input.GetKeyDown(KeyCode.W)) // TODO disable jumping if the player is already midair
+        if (Input.GetKeyDown(KeyCode.W)) // TODO disable jumping if the player is already in-air
         {
             _rigidbody.AddForce(Vector3.up * _jumpStrength, ForceMode.Impulse);
         }
@@ -68,9 +68,6 @@ public class PlayerController : MonoBehaviour
         // Initialize movement vector
         Vector3 movement = _movementDirection * _moveSpeed;
 
-        // Update isGrounded
-        _isGrounded = Physics.Raycast(movement, Vector3.down, 0.1f);
-        
         // Apply force
         _rigidbody.AddForce(movement * Time.fixedDeltaTime, ForceMode.VelocityChange);
     }

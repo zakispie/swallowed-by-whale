@@ -12,11 +12,16 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Jump Strength")]
     [SerializeField] private float _jumpStrength;
 
+    public LayerMask groundLayer;
+
     // Tracks the player's current movement direction
     private Vector3 _movementDirection;
     
     // Tracks whether the player is currently grounded
     private bool _isGrounded;
+
+    // Tracks num jumps player has performed
+    private int _jumpCount;
     
     // Cache the transform
     private Transform _transform;
@@ -39,10 +44,22 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+
+        Debug.Log("jump count: " + _jumpCount);
+        Debug.Log("Is on ground: " + _isGrounded);
+
+        // Implements only allowing double jump
+        // Checks if player is grounded
+        _isGrounded = IsGrounded();
+        if(_isGrounded){
+            _jumpCount = 0;
+        }
+
         // TODO refactor to use new InputSystem
-        if (Input.GetKeyDown(KeyCode.W)) // TODO disable jumping if the player is already in-air
+        if (Input.GetKeyDown(KeyCode.W) && (_isGrounded || _jumpCount < 1)) // TODO disable jumping if the player is already in-air
         {
             _rigidbody.AddForce(Vector3.up * _jumpStrength, ForceMode.Impulse);
+            _jumpCount++;
         }
         
         if (Input.GetKey(KeyCode.A))
@@ -70,5 +87,20 @@ public class PlayerController : MonoBehaviour
 
         // Apply force
         _rigidbody.AddForce(movement * Time.fixedDeltaTime, ForceMode.VelocityChange);
+    }
+
+    bool IsGrounded()
+    {
+        // The position, height, and radius of the capsule's collider.
+        Vector3 capsulePosition = transform.position;
+        float capsuleHeight = GetComponent<CapsuleCollider>().height;
+        float capsuleRadius = GetComponent<CapsuleCollider>().radius;
+
+        // Check for overlapping colliders below the capsule to determine if it's grounded.
+        Collider[] hitColliders = Physics.OverlapCapsule(capsulePosition + new Vector3(0, capsuleHeight / 2 - capsuleRadius, 0),
+                                                          capsulePosition - new Vector3(0, capsuleHeight / 2 - capsuleRadius, 0),
+                                                          capsuleRadius, groundLayer);
+
+        return hitColliders.Length > 0;
     }
 }

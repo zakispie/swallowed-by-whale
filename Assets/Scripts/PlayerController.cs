@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region variables
+    // Keyboard Property
+    public static Keyboard Keyboard => _instance._keyboard;
+    
+    // Most Recent Facing Direction Property
+    public static Vector3 FacingDirection => _instance._facingDirection;
+    
     [Header("Ground Movement")]
     [Tooltip("Move Speed")] 
     [SerializeField] private float moveSpeed;
@@ -27,6 +34,12 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
+    
+    // Singleton instance of the player controller
+    private static PlayerController _instance;
+    
+    // Tracks the player's most recent facing direction (face right by default)
+    private Vector3 _facingDirection = Vector3.right;
 
     // Tracks the player's current movement direction
     private Vector3 _movementDirection;
@@ -53,6 +66,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Start()
     {
+        _instance = this;
         _rigidbody = GetComponent<Rigidbody>();
         _capsuleColliders = GetComponents<CapsuleCollider>();
         _keyboard = Keyboard.current;
@@ -67,6 +81,7 @@ public class PlayerController : MonoBehaviour
         if (_keyboard.wKey.wasPressedThisFrame && (_isGrounded || _jumpCount < numJumps - 1))
         {
             _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+            _facingDirection = Vector3.up;
             _jumpCount++;
         }
 
@@ -74,10 +89,12 @@ public class PlayerController : MonoBehaviour
         if (_keyboard.aKey.isPressed)
         {
             _movementDirection = Vector3.left;
+            _facingDirection = Vector3.left;
         }
         else if (_keyboard.dKey.isPressed)
         {
             _movementDirection = Vector3.right;
+            _facingDirection = Vector3.right;
         }
         else
         {

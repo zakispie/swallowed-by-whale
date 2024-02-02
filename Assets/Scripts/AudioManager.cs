@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Audio : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
     public AudioClip[] audioClips;
     private AudioSource audioSource;
     private bool isPlaying = false;
 
-    public float playDuration = 10f; // Adjust the total duration as needed
-    public float pitchMultiplier = 1.2f; // Adjust the pitch multiplier to speed up the audio clips
+    public float playDuration = 10f; // Adjust the duration as needed
 
     void Start()
     {
@@ -31,21 +30,21 @@ public class Audio : MonoBehaviour
 
         while (timer < duration)
         {
-            int randomIndex = Random.Range(0, audioClips.Length - 1);
+            int randomIndex = Random.Range(0, audioClips.Length);
             audioSource.clip = audioClips[randomIndex];
-            
-            // Adjust pitch to speed up the audio clip
-            audioSource.pitch = pitchMultiplier;
-
             audioSource.Play();
 
-            yield return new WaitForSecondsRealtime(audioSource.clip.length / pitchMultiplier);
+            yield return new WaitForSecondsRealtime(audioSource.clip.length);
 
-            timer += audioSource.clip.length / pitchMultiplier;
+            float deltaTime = 0f;
+            while (deltaTime < audioSource.clip.length)
+            {
+                deltaTime += Time.deltaTime;
+                yield return null;
+            }
+
+            timer += audioSource.clip.length;
         }
-
-        // Reset pitch to normal after the sequence is finished
-        audioSource.pitch = 1f;
 
         isPlaying = false;
     }

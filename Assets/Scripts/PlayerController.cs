@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     // Most Recent Facing Direction Property
     public static Vector3 FacingDirection => _instance._facingDirection;
     
+    // Position Property
+    public static Vector3 Position => _instance.transform.position;
+    
     [Header("Ground Movement")]
     [Tooltip("Move Speed")] 
     [SerializeField] private float moveSpeed;

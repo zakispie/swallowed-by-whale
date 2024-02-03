@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     
     // Position Property
     public static Vector3 Position => _instance.transform.position;
+
+    // Player's height
+    private float playerHeight;
     
     [Header("Ground Movement")]
     [Tooltip("Move Speed")] 
@@ -31,11 +34,12 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Number of Jumps (Including First Jump)")] [Min(1)] 
     [SerializeField] private int numJumps;
 
-    [Tooltip("Jump Strength")] 
+    [Tooltip("Jump Strength")]
     [SerializeField] private float jumpStrength;
 
     [Tooltip("How far down crouch goes")]
-    [SerializeField] private float crouchAmt;
+    [Range(1f, 5f)]
+    [SerializeField] private float crouchingHeight;
 
     [Header("Other")]
     [Tooltip("Ground Layer")]
@@ -52,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
     // Tracks whether the player is currently grounded
     private bool _isGrounded;
+
+    // Tracks whether the player is currently crouching
+    private bool _isCrouched = false;
 
     // Tracks num jumps player has performed
     private int _jumpCount;
@@ -76,6 +83,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _capsuleColliders = GetComponents<CapsuleCollider>();
         _keyboard = Keyboard.current;
+        playerHeight = transform.localScale.y;
     }
 
     /// <summary>
@@ -89,6 +97,21 @@ public class PlayerController : MonoBehaviour
             _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             _facingDirection = Vector3.up;
             _jumpCount++;
+        }
+
+        if(_keyboard.sKey.isPressed)
+        {
+            if(!_isCrouched)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
+                _isCrouched = true;
+            }
+            transform.localScale = new Vector3(1f, playerHeight / crouchingHeight, 1f);
+        }
+        else
+        {
+            _isCrouched = false;
+            transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
         // Handle Inputs

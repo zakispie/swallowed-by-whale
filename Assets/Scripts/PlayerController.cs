@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Jump Strength")] 
     [SerializeField] private float jumpStrength;
 
+    [Tooltip("How far down crouch goes")]
+    [SerializeField] private float crouchAmt;
+
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
@@ -110,6 +113,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+
         // Check if player is grounded
         _isGrounded = IsGrounded();
         if (_isGrounded)

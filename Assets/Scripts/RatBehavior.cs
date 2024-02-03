@@ -41,6 +41,16 @@ public class RatBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if(_facingDirection.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        } 
+        else if(_facingDirection.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+
         switch (_currentState)
         {
             case BehaviorState.Wander:
@@ -149,4 +159,5 @@ public class RatBehavior : MonoBehaviour
         return Physics.Raycast(transform.position, _facingDirection, out var hit, aggroDistance) &&
                hit.collider.CompareTag("Player");
     }
+
 }

@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Allow jump if player is grounded or has not performed double jump
-        if (_keyboard.wKey.wasPressedThisFrame && (_isGrounded || _jumpCount < numJumps - 1))
+        if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
         {
             _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             _facingDirection = Vector3.up;
@@ -136,6 +136,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+
+        if(_facingDirection.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        } 
+        else if(_facingDirection.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
 
         // Check if player is grounded
         _isGrounded = IsGrounded();

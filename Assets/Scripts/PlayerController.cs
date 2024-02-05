@@ -25,8 +25,11 @@ public class PlayerController : MonoBehaviour
     private float playerHeight;
     
     [Header("Ground Movement")]
-    [Tooltip("Move Speed")] 
-    [SerializeField] private float moveSpeed;
+    [Tooltip("Movement Strength")] 
+    [SerializeField] private float moveStrength;
+    
+    [Tooltip("Maximum Velocity")]
+    [SerializeField] private float maxVelocity;
 
     [Tooltip("Deceleration Strength")] 
     [SerializeField] private float deceleration;
@@ -162,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Initialize movement vector and apply to the rigidbody
-        Vector3 movement = _movementDirection * (moveSpeed * Time.fixedDeltaTime);
+        Vector3 movement = _movementDirection * (moveStrength * Time.fixedDeltaTime);
         
         if (movement == Vector3.zero) 
         {
@@ -186,6 +189,11 @@ public class PlayerController : MonoBehaviour
         {
             // Movement input requested, apply movement force in that direction
             _rigidbody.AddForce(movement, ForceMode.VelocityChange);
+            // After applying force, ensure the rigidbody velocity is below maxVelocity
+            _rigidbody.velocity = new Vector3(
+                Mathf.Clamp(_rigidbody.velocity.x, -maxVelocity, maxVelocity),
+                _rigidbody.velocity.y,
+                Mathf.Clamp(_rigidbody.velocity.z, -maxVelocity, maxVelocity));
         }
     }
 

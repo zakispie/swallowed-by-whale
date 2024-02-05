@@ -21,9 +21,14 @@ public class RatBehavior : MonoBehaviour
     [Tooltip("Rat move speed")] [SerializeField]
     private float moveSpeed;
 
+    // Tracks currently facing direction
     private Vector3 _facingDirection;
 
+    // Tracks the current state of the rat
     private BehaviorState _currentState;
+    
+    // Tracks whether the rat is currently attacking
+    private bool _attacking;
 
     enum BehaviorState
     {
@@ -62,8 +67,11 @@ public class RatBehavior : MonoBehaviour
             case BehaviorState.Attack:
                 // telegraph here
                 print("telegraphing attack...");
-                _currentState = BehaviorState.Wander;
-                Invoke(nameof(Attack), attackTelegraphTime);
+                if (!_attacking)
+                {
+                    _attacking = true;
+                    Invoke(nameof(Attack), attackTelegraphTime);
+                }
                 break;
         }
     }
@@ -136,6 +144,8 @@ public class RatBehavior : MonoBehaviour
                 PlayerController.Health.TakeDamage(1);
             }
         }
+        _attacking = false;
+        _currentState = BehaviorState.Wander;
     }
 
     /// <summary>

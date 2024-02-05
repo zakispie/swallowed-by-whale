@@ -62,6 +62,7 @@ public class RatBehavior : MonoBehaviour
             case BehaviorState.Attack:
                 // telegraph here
                 print("telegraphing attack...");
+                _currentState = BehaviorState.Wander;
                 Invoke(nameof(Attack), attackTelegraphTime);
                 break;
         }
@@ -128,26 +129,13 @@ public class RatBehavior : MonoBehaviour
 
     private void Attack()
     {
-        print("Biting the player!");
         if (Physics.Raycast(transform.position, _facingDirection, out var hit, attackReachDistance))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                print("I hit the player!");
-                // deal damage to the player
-            }
-            else
-            {
-                print("I hit something not the player!");
+                PlayerController.Health.TakeDamage(1);
             }
         }
-        else
-        {
-            print("I missed the player and hit nothing!");
-        }
-        
-        // return to Wander State
-        _currentState = BehaviorState.Wander;
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// Class for handling player inputs & applying physics to the player
@@ -16,6 +17,9 @@ public class PlayerController : MonoBehaviour
     
     // Position Property
     public static Vector3 Position => _instance.transform.position;
+    
+    // Health Component Property
+    public static Health Health => _instance._health;
 
     // Player's height
     private float playerHeight;
@@ -44,7 +48,7 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
-    
+
     // Singleton instance of the player controller
     private static PlayerController _instance;
     
@@ -62,6 +66,9 @@ public class PlayerController : MonoBehaviour
 
     // Tracks num jumps player has performed
     private int _jumpCount;
+    
+    // Cache the health component
+    private Health _health;
 
     // Cache the capsule colliders
     private CapsuleCollider[] _capsuleColliders;
@@ -82,6 +89,7 @@ public class PlayerController : MonoBehaviour
         _instance = this;
         _rigidbody = GetComponent<Rigidbody>();
         _capsuleColliders = GetComponents<CapsuleCollider>();
+        _health = GetComponent<Health>();
         _keyboard = Keyboard.current;
         playerHeight = transform.localScale.y;
     }

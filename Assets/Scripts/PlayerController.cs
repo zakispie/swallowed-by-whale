@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
 {
     #region variables
     // Keyboard Property
-    public static Keyboard Keyboard => _instance._keyboard;
+    // public static Keyboard Keyboard => _instance._keyboard;
+    
+    // Mouse Property
+    public static Mouse Mouse => _instance._mouse;
     
     // Most Recent Facing Direction Property
     public static Vector3 FacingDirection => _instance._facingDirection;
@@ -22,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public static Health Health => _instance._health;
 
     // Player's height
-    private float playerHeight;
+    private float _playerHeight;
     
     [Header("Ground Movement")]
     [Tooltip("Movement Strength")] 
@@ -81,6 +84,9 @@ public class PlayerController : MonoBehaviour
 
     // Cache the keyboard
     private Keyboard _keyboard;
+    
+    // Cache the mouse
+    private Mouse _mouse;
 
     #endregion
 
@@ -94,7 +100,8 @@ public class PlayerController : MonoBehaviour
         _capsuleColliders = GetComponents<CapsuleCollider>();
         _health = GetComponent<Health>();
         _keyboard = Keyboard.current;
-        playerHeight = transform.localScale.y;
+        _mouse = Mouse.current;
+        _playerHeight = transform.localScale.y;
     }
 
     /// <summary>
@@ -117,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
                 _isCrouched = true;
             }
-            transform.localScale = new Vector3(1f, playerHeight / crouchingHeight, 1f);
+            transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
         }
         else
         {

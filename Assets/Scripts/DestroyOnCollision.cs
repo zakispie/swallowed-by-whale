@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class DestroyOnCollision : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Destroy(this.gameObject);
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage(1);
+            other.gameObject.GetComponent<Health>().TakeDamage(1);
         }
+
+        Destroy(gameObject);
     }
 }

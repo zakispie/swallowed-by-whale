@@ -23,7 +23,7 @@ public class Gun : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (PlayerController.Keyboard.rKey.wasPressedThisFrame && _readyToFire)
+        if (PlayerController.Mouse.leftButton.wasPressedThisFrame && _readyToFire)
         {
             _readyToFire = false;
             // instantiate a bulletObject and add force

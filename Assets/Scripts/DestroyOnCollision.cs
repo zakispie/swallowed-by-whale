@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Behavior that causes the attached object to be destroyed upon trigger enter
+/// </summary>
 public class DestroyOnCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)

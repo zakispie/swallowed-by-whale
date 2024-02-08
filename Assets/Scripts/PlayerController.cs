@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
     [Range(1f, 5f)]
     [SerializeField] private float crouchingHeight;
 
+    [Tooltip("Added force when falling to get rid of float")]
+    [SerializeField] private float fallForce;
+
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
@@ -107,6 +110,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+
+        
+
         // Allow jump if player is grounded or has not performed double jump
         if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
         {
@@ -115,6 +121,7 @@ public class PlayerController : MonoBehaviour
             _jumpCount++;
         }
 
+        // Implements crouching
         if(_keyboard.sKey.isPressed)
         {
             if(!_isCrouched)
@@ -169,6 +176,12 @@ public class PlayerController : MonoBehaviour
             _jumpCount = 0;
         }
 
+        if(IsFalling()){
+            // After jumps --> on descent, add force to fall faster
+            _rigidbody.AddForce(Vector3.down * fallForce, ForceMode.Acceleration);
+
+        }
+
         // Initialize movement vector and apply to the rigidbody
         Vector3 movement = _movementDirection * (moveStrength * Time.fixedDeltaTime);
         
@@ -220,5 +233,14 @@ public class PlayerController : MonoBehaviour
             capsuleRadius, groundLayer);
 
         return hitColliders.Length > 0;
+    }
+
+        /// <summary>
+    /// Determines if the player is falling
+    /// </summary>
+    /// <returns> True if the player is falling, false otherwise </returns>
+    bool IsFalling()
+    {
+        return _rigidbody.velocity.y < 0;
     }
 }

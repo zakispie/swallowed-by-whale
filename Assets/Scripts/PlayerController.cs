@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
 
     // Cache the keyboard
-    private Keyboard _keyboard;
+    private Keyboard _keyboard; 
     
     // Cache the mouse
     private Mouse _mouse;

@@ -46,11 +46,11 @@ public class RatBehavior : EnemyBehavior
         // Check if the rat can see the player, transition to Chase if so
         if (CanSeePlayer())
         {
-            print("I spotted the player! Chasing...");
+          //  print("I spotted the player! Chasing...");
             currentState = BehaviorState.Chase;
             return;
         }
-
+        
         print("Can't see player, wandering...");
 
         // Define an origin for start of ledge check
@@ -83,7 +83,7 @@ public class RatBehavior : EnemyBehavior
             // we hit something
             if (!hit.collider.CompareTag("Player"))
             {
-                print("Lost line of sight of player, wandering...");
+           //     print("Lost line of sight of player, wandering...");
                 // lost line of sight since the raycast hit something that wasn't the player
                 currentState = BehaviorState.Wander;
                 return;
@@ -92,7 +92,7 @@ public class RatBehavior : EnemyBehavior
             // we hit the player, still have line of sight, now how far is the player from us?
             if (Vector3.Distance(transform.position, PlayerController.Position) <= attackAttemptDistance)
             {
-                print("Player in my attack range!");
+           //     print("Player in my attack range!");
                 // we are close enough to attack
                 currentState = BehaviorState.Attack;
                 return;
@@ -105,7 +105,7 @@ public class RatBehavior : EnemyBehavior
         }
         else
         {
-            print("Player left my range, wandering...");
+           // print("Player left my range, wandering...");
             // nothing was hit, so the player must be out of aggroDistance
             currentState = BehaviorState.Wander;
             return;

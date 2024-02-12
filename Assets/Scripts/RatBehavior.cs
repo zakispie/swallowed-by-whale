@@ -51,7 +51,7 @@ public class RatBehavior : EnemyBehavior
             return;
         }
         
-        print("Can't see player, wandering...");
+       // print("Can't see player, wandering...");
 
         // Define an origin for start of ledge check
         var origin = transform.position + (Vector3.up * ledgeCheckHeight);

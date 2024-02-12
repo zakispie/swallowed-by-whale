@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Jump Strength")]
     [SerializeField] private float jumpStrength;
 
+    [Tooltip("Climb Speed")]
+    [SerializeField] private float climbSpeed;
+
     [Tooltip("How far down crouch goes")]
     [Range(1f, 5f)]
     [SerializeField] private float crouchingHeight;
@@ -71,6 +74,9 @@ public class PlayerController : MonoBehaviour
     // Tracks whether the player is currently crouching
     private bool _isCrouched = false;
 
+    // Trakc whether player is currently on a ladder
+    public static bool _onLadder = false;
+
     // Tracks num jumps player has performed
     private int _jumpCount;
     
@@ -82,6 +88,8 @@ public class PlayerController : MonoBehaviour
 
     // Cache the rigidbody
     private Rigidbody _rigidbody;
+
+
 
     // Cache the keyboard
     private Keyboard _keyboard; 
@@ -111,30 +119,48 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        
+        Debug.Log("On ground " + _isGrounded);
 
-        // Allow jump if player is grounded or has not performed double jump
-        if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
+        // When on ladder you can not jump or crouch, rest of movement behavior is same
+        if(_onLadder)
         {
-            _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
-            _facingDirection = Vector3.up;
-            _jumpCount++;
-        }
+    
+            _rigidbody.useGravity = false;
 
-        // Implements crouching
-        if(_keyboard.sKey.isPressed)
-        {
-            if(!_isCrouched)
+            if (_keyboard.wKey.isPressed) // move up on ladder
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
-                _isCrouched = true;
+                transform.position += Vector3.up * climbSpeed * Time.deltaTime;
+            } else if(_keyboard.sKey.isPressed && !_isGrounded) { // move down on ladder if player is not on ground
+                transform.position += Vector3.down * climbSpeed * Time.deltaTime;
             }
-            transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
-        }
-        else
-        {
-            _isCrouched = false;
-            transform.localScale = new Vector3(1f, 1f, 1f);
+
+        } else {
+
+            _rigidbody.useGravity = true;
+            
+            // Allow jump if player is grounded or has not performed double jump
+            if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
+            {
+                _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+                _facingDirection = Vector3.up;
+                _jumpCount++;
+            }
+
+            // Implements crouching
+            if(_keyboard.sKey.isPressed)
+            {
+                if(!_isCrouched)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
+                    _isCrouched = true;
+                }
+                transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
+            }
+            else
+            {
+                _isCrouched = false;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
         }
 
         // Handle Inputs
@@ -235,7 +261,7 @@ public class PlayerController : MonoBehaviour
         return hitColliders.Length > 0;
     }
 
-        /// <summary>
+    /// <summary>
     /// Determines if the player is falling
     /// </summary>
     /// <returns> True if the player is falling, false otherwise </returns>

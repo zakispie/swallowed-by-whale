@@ -19,6 +19,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         _currentHealth = maxHealth;
+
     }
     
     public void TakeDamage(float damage)

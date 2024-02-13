@@ -131,7 +131,7 @@ public class RatBehavior : EnemyBehavior
         {
             if (hit.collider.CompareTag("Player"))
             {
-                PlayerController.Health.TakeDamage(1);
+                PlayerController.HealthBar.TakeDamage(1);
             }
         }
 

@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
     // Position Property
     public static Vector3 Position => _instance.transform.position;
     
-    // Health Component Property
-    public static Health Health => _instance._health;
+    // HealthBar Component Property
+    public static HealthBar HealthBar => _instance._healthBar;
 
     // Player's height
     private float _playerHeight;
@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
     // Tracks num jumps player has performed
     private int _jumpCount;
     
-    // Cache the health component
-    private Health _health;
+    // Cache the healthBar component
+    private HealthBar _healthBar;
 
     // Cache the capsule colliders
     private CapsuleCollider[] _capsuleColliders;
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
         _instance = this;
         _rigidbody = GetComponent<Rigidbody>();
         _capsuleColliders = GetComponents<CapsuleCollider>();
-        _health = GetComponent<Health>();
+        _healthBar = GetComponent<HealthBar>();
         _keyboard = Keyboard.current;
         _mouse = Mouse.current;
         _playerHeight = transform.localScale.y;
@@ -118,8 +118,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
-
-        Debug.Log("On ground " + _isGrounded);
 
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)

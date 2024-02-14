@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Class for handling Player health bar
+/// </summary>
 public class HealthBar : MonoBehaviour
 {
     [Tooltip("Starting Maximum Health")] [Min(0f)]
@@ -20,7 +23,6 @@ public class HealthBar : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
-        Debug.Log("Healt bar uodate");
         _currentHealth -= damage;
         healthBar.fillAmount = _currentHealth / maxHealth;
         

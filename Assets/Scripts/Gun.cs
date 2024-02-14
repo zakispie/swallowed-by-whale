@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Class for handling gun firing mechanics
@@ -11,6 +12,9 @@ public class Gun : MonoBehaviour
 
     [Tooltip("Cooldown Between Shots (in seconds)")]
     [SerializeField] private float gunCooldown;
+
+    // Adjusts size based on current health
+    public Image coolDownBar;
     
     [Tooltip("Bullet Prefab")]
     [SerializeField] private GameObject bulletObject;

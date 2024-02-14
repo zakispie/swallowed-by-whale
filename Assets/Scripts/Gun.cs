@@ -12,21 +12,25 @@ public class Gun : MonoBehaviour
 
     [Tooltip("Cooldown Between Shots (in seconds)")]
     [SerializeField] private float gunCooldown;
-
-    // Adjusts size based on current health
-    public Image coolDownBar;
     
     [Tooltip("Bullet Prefab")]
     [SerializeField] private GameObject bulletObject;
 
     // Tracks whether the gun cooldown is ready to be fired
     private bool _readyToFire = true;
+
+    // Tracks where the cooldown is in seconds (0 = complete)
+    private float cooldownTime;
+
+    // Adjusts size based on current health
+    public Image cooldownBar;
     
     /// <summary>
     /// Handles player input
     /// </summary>
     void Update()
     {
+        Debug.Log("Cool down time: " + cooldownTime);
         if (PlayerController.Mouse.leftButton.wasPressedThisFrame && _readyToFire)
         {
             _readyToFire = false;
@@ -35,6 +39,14 @@ public class Gun : MonoBehaviour
             bullet.GetComponent<Rigidbody>().AddForce(PlayerController.FacingDirection * bulletSpeed, ForceMode.Impulse);
             StartCoroutine(EnableCooldownAfterTime());
         }
+
+        if(cooldownTime > 0.0f){
+            cooldownTime -= Time.deltaTime;
+        } else {
+            cooldownTime = 0.0f;
+        }
+
+        cooldownBar.fillAmount = cooldownTime / gunCooldown;
     }
     
     /// <summary>
@@ -43,6 +55,7 @@ public class Gun : MonoBehaviour
     /// <returns> Nothing </returns>
     private IEnumerator EnableCooldownAfterTime()
     {
+        cooldownTime = gunCooldown;
         yield return new WaitForSeconds(gunCooldown);
         _readyToFire = true;
     }

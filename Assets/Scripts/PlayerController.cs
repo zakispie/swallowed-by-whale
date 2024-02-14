@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     // Mouse Property
     public static Mouse Mouse => _instance._mouse;
     
+    // Keyboard Property
+    public static Keyboard Keyboard => _instance._keyboard;
+    
     // Most Recent Facing Direction Property
     public static Vector3 FacingDirection => _instance._facingDirection;
     

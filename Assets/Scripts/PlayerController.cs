@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        Debug.Log("On ladder: " + _onLadder);
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)
         {
@@ -133,6 +133,10 @@ public class PlayerController : MonoBehaviour
                 transform.position += Vector3.up * climbSpeed * Time.deltaTime;
             } else if(_keyboard.sKey.isPressed && !_isGrounded) { // move down on ladder if player is not on ground
                 transform.position += Vector3.down * climbSpeed * Time.deltaTime;
+            } else if(_keyboard.sKey.isPressed && _isGrounded) { // crouch if at bottom of ladder and on ground
+                Crouch();
+            } else {
+                StandUp();
             }
 
         } else {
@@ -150,17 +154,11 @@ public class PlayerController : MonoBehaviour
             // Implements crouching
             if(_keyboard.sKey.isPressed)
             {
-                if(!_isCrouched)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
-                    _isCrouched = true;
-                }
-                transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
+                Crouch();
             }
             else
             {
-                _isCrouched = false;
-                transform.localScale = new Vector3(1f, 1f, 1f);
+                StandUp();
             }
         }
 
@@ -269,5 +267,28 @@ public class PlayerController : MonoBehaviour
     bool IsFalling()
     {
         return _rigidbody.velocity.y < 0;
+    }
+
+    /// <summary>
+    /// Puts player in crouching position
+    /// </summary>
+    void Crouch()
+    {
+        if(!_isCrouched)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - 0.4f, transform.position.z);
+            _isCrouched = true;
+        }
+
+        transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
+    }
+
+    /// <summary>
+    /// Takes player out of crouching position
+    /// </summary>
+    void StandUp()
+    {
+        _isCrouched = false;
+        transform.localScale = new Vector3(1f, 1f, 1f);
     }
 }

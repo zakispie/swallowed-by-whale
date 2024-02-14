@@ -7,6 +7,12 @@ public class LadderBehavior : MonoBehaviour
     // Reference to player
     public GameObject player;
 
+    public Rigidbody playerRB;
+
+    void Start() {
+        playerRB = player.GetComponent<Rigidbody>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
@@ -25,6 +31,7 @@ public class LadderBehavior : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController._onLadder = false;
+            playerRB.velocity = Vector3.zero;
         }
 
     }

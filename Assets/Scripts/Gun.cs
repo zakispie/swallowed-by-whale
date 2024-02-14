@@ -30,7 +30,7 @@ public class Gun : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Debug.Log("Cool down time: " + cooldownTime);
+
         if (PlayerController.Mouse.leftButton.wasPressedThisFrame && _readyToFire)
         {
             _readyToFire = false;
@@ -40,6 +40,7 @@ public class Gun : MonoBehaviour
             StartCoroutine(EnableCooldownAfterTime());
         }
 
+        // Increments cooldown timer when it is set to cool down time
         if(cooldownTime > 0.0f){
             cooldownTime -= Time.deltaTime;
         } else {

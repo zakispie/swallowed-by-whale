@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
     /// <returns> True if the player is falling, false otherwise </returns>
     bool IsFalling()
     {
-        return _rigidbody.velocity.y < 0;
+        return _rigidbody.velocity.y < 2.0;
     }
 
     /// <summary>

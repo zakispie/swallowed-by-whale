@@ -4179,6 +4179,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
+      propertyPath: fallForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
+        type: 3}
       propertyPath: climbSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -4190,7 +4195,7 @@ PrefabInstance:
     - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: jumpStrength
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}

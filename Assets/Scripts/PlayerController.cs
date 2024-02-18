@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -76,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     // Tracks whether the player is currently crouching
     private bool _isCrouched = false;
-
+    
     // Trakc whether player is currently on a ladder
     public static bool _onLadder = false;
 
@@ -290,5 +292,33 @@ public class PlayerController : MonoBehaviour
     {
         _isCrouched = false;
         transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+    /// <summary>
+    /// Applies speed powerup to the player
+    /// </summary>
+    public static void SpeedPowerup()
+    {
+        _instance.StartCoroutine(nameof(ApplySpeedPowerup));
+    }
+
+    /// <summary>
+    /// Applies speed powerup, doubling player velocity for 10 seconds before returning to normal
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ApplySpeedPowerup()
+    {
+        // TODO we can abstract this to take in multiple powerup types, and also clean up the code a lot
+        // this is just a messy version that gets the job done for playtesting
+        var originalMoveStrength = moveStrength;
+        var originalMaxVelocity = maxVelocity;
+        var originalDeceleration = deceleration;
+        moveStrength *= 2;
+        maxVelocity *= 2;
+        deceleration *= 2;
+        yield return new WaitForSeconds(10);
+        moveStrength = originalMoveStrength;
+        maxVelocity = originalMaxVelocity;
+        deceleration = originalDeceleration;
     }
 }

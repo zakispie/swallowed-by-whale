@@ -3,8 +3,13 @@ using UnityEngine;
 // There's room for improvement in this script.
 public class PowerupBehavior : MonoBehaviour
 {
+    // TODO abstract to be used in other powerups in the future
     private bool _touchingPlayer;
     
+    /// <summary>
+    /// Marks the powerup as touching the player
+    /// </summary>
+    /// <param name="other"> The collider that entered the trigger </param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -13,6 +18,10 @@ public class PowerupBehavior : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Marks the powerup as no longer touching the player
+    /// </summary>
+    /// <param name="other"> The collider that exited the trigger </param>
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -21,6 +30,9 @@ public class PowerupBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles keyboard input for collecting the powerup
+    /// </summary>
     void Update()
     {
         if (_touchingPlayer && PlayerController.Keyboard.eKey.wasPressedThisFrame)
@@ -29,9 +41,12 @@ public class PowerupBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Indicates that the player has collected the powerup to the player controller
+    /// </summary>
     void CollectPowerup()
     {
-        // PlayerController.ActivateSpeedPowerup();
+        PlayerController.SpeedPowerup();
         Destroy(gameObject);
     }
 }

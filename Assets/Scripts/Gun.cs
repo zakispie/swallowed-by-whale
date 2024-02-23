@@ -36,7 +36,7 @@ public class Gun : MonoBehaviour
             _readyToFire = false;
             // instantiate a bulletObject and add force
             GameObject bullet = Instantiate(bulletObject, transform.position + PlayerController.FacingDirection.normalized, Quaternion.identity);
-            bullet.GetComponent<Rigidbody>().AddForce(PlayerController.FacingDirection * bulletSpeed, ForceMode.Impulse);
+            bullet.GetComponent<Rigidbody>().AddForce(PlayerController.FacingDirection.normalized * bulletSpeed, ForceMode.Impulse);
             StartCoroutine(EnableCooldownAfterTime());
         }
 

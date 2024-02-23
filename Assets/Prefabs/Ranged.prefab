@@ -548,9 +548,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8268040e748084542a4a50028607bab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroDistance: 10
-  attackAttemptDistance: 4
-  attackReachDistance: 5
+  aggroDistance: 15
+  attackAttemptDistance: 10
+  bulletSpeed: 50
+  bulletPrefab: {fileID: 1075874680844074522, guid: bd038f7aa26784e64be0e1039f6b3514,
+    type: 3}
   attackTelegraphTime: 1
   wallDistance: 1
   ledgeCheckHeight: 2

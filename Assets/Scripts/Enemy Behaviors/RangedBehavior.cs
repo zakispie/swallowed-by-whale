@@ -11,9 +11,12 @@ public class RangedBehavior : EnemyBehavior
 
     [Tooltip("How many units the ranged enemy will attempt to attack the player")] [SerializeField]
     private float attackAttemptDistance;
+    
+    [Tooltip("The force strength applied to the bullet when fired")] [SerializeField]
+    private float bulletSpeed;
 
-    [Tooltip("How many units the ranged enemy can actually attack or reach")] [SerializeField]
-    private float attackReachDistance;
+    [Tooltip("The bullet prefab to be fired")] [SerializeField]
+    private GameObject bulletPrefab;
 
     [Tooltip("How many seconds the ranged enemy will wait before attacking")] [SerializeField]
     private float attackTelegraphTime;
@@ -83,7 +86,7 @@ public class RangedBehavior : EnemyBehavior
             // we hit something
             if (!hit.collider.CompareTag("Player"))
             {
-           //     print("Lost line of sight of player, wandering...");
+                //     print("Lost line of sight of player, wandering...");
                 // lost line of sight since the raycast hit something that wasn't the player
                 currentState = BehaviorState.Wander;
                 return;
@@ -92,7 +95,7 @@ public class RangedBehavior : EnemyBehavior
             // we hit the player, still have line of sight, now how far is the player from us?
             if (Vector3.Distance(transform.position, PlayerController.Position) <= attackAttemptDistance)
             {
-           //     print("Player in my attack range!");
+                //     print("Player in my attack range!");
                 // we are close enough to attack
                 currentState = BehaviorState.Attack;
                 return;
@@ -127,13 +130,9 @@ public class RangedBehavior : EnemyBehavior
     /// </summary>
     private void PerformAttack()
     {
-        if (Physics.Raycast(transform.position, facingDirection, out var hit, attackReachDistance))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                PlayerController.HealthBar.TakeDamage(1);
-            }
-        }
+        // instantiate a bulletObject and add force
+        GameObject bullet = Instantiate(bulletPrefab, transform.position + facingDirection.normalized, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().AddForce(facingDirection.normalized * bulletSpeed, ForceMode.Impulse);
 
         attacking = false;
         currentState = BehaviorState.Wander;

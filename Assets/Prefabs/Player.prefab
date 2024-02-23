@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 1525133937074139008}
   - component: {fileID: 1621962243239535831}
   - component: {fileID: 2160410621258414875}
-  - component: {fileID: 1191644019013793383}
+  - component: {fileID: 6711815080257068983}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -191,15 +191,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd3b144f41204b2db31f68aead351bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveStrength: 0
-  maxVelocity: 0
+  moveStrength: 20
+  maxVelocity: 10
   deceleration: 10
   inAirDecelerationPercent: 0.5
   numJumps: 2
-  jumpStrength: 8
-  climbSpeed: 0
+  jumpStrength: 10
+  climbSpeed: 20
   crouchingHeight: 2
-  fallForce: 0
+  fallForce: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -248,7 +248,7 @@ CapsuleCollider:
   m_Radius: 0.6
   m_Height: 1.9
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!54 &1621962243239535831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -290,10 +290,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 50
   gunCooldown: 2
-  coolDownBar: {fileID: 0}
   bulletObject: {fileID: 1075874680844074522, guid: 8eca180926bbf4005b8f27042d6f6ab2,
     type: 3}
---- !u!114 &1191644019013793383
+  cooldownBar: {fileID: 0}
+--- !u!114 &6711815080257068983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,11 +302,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284992863441399124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09536fa304c4645348cd23d5e728a09f, type: 3}
+  m_Script: {fileID: 11500000, guid: 72fe94c798581f947ae3c9ac440abc12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  healthSlider: {fileID: 0}
+  maxHealth: 5
+  healthBar: {fileID: 0}
 --- !u!1 &1652303367085934868
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,12 +27,8 @@ public class LadderBehavior : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
 
-        // When player gets off ladder, set player variable _onLadder to false
-        if (other.CompareTag("Player"))
-        {
-            PlayerController._onLadder = false;
-            playerRB.velocity = Vector3.zero;
-        }
+        PlayerController._onLadder = false;
+        playerRB.velocity = Vector3.zero;
 
     }
 }

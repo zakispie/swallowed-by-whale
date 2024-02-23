@@ -127,8 +127,14 @@ public class PlayerController : MonoBehaviour
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)
         {
-    
+            // prevents player from being effected by gravity
             _rigidbody.useGravity = false;
+            fallForce = 0;
+            _rigidbody.velocity = Vector3.zero;
+
+            Vector3 newPosition = transform.position;
+            newPosition.z = -1.5f; // Set the z position to 3
+            transform.position = newPosition;
 
             if (_keyboard.wKey.isPressed) // move up on ladder
             {
@@ -144,7 +150,12 @@ public class PlayerController : MonoBehaviour
         } else {
 
             _rigidbody.useGravity = true;
-            
+            fallForce = 2;
+
+            Vector3 newPosition = transform.position;
+            newPosition.z = 0f; // Set the z position to 3
+            transform.position = newPosition;
+
             // Allow jump if player is grounded or has not performed double jump
             if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
             {

@@ -60,6 +60,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Added force when falling to get rid of float")]
     [SerializeField] private float fallForce;
 
+    // Used to hold the fall force set in the inspector when the fall force is set to 0
+    // when using in the ladder so we can reset the fall force back
+    private float tempFallForce;
+
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
@@ -94,8 +98,6 @@ public class PlayerController : MonoBehaviour
     // Cache the rigidbody
     private Rigidbody _rigidbody;
 
-
-
     // Cache the keyboard
     private Keyboard _keyboard; 
     
@@ -116,6 +118,7 @@ public class PlayerController : MonoBehaviour
         _keyboard = Keyboard.current;
         _mouse = Mouse.current;
         _playerHeight = transform.localScale.y;
+        tempFallForce = fallForce;
     }
 
     /// <summary>
@@ -123,17 +126,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Debug.Log("On ladder: " + _onLadder);
+
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)
         {
             // prevents player from being effected by gravity
             _rigidbody.useGravity = false;
+            tempFallForce = fallForce;
             fallForce = 0;
             _rigidbody.velocity = Vector3.zero;
 
+            // moves the player character forward onto the ladder
+            // reads to player that the player character is on ladder + allows them to move past platforms on ladder
             Vector3 newPosition = transform.position;
-            newPosition.z = -1.5f; // Set the z position to 3
+            newPosition.z = -1.5f;
             transform.position = newPosition;
 
             if (_keyboard.wKey.isPressed) // move up on ladder
@@ -149,17 +155,28 @@ public class PlayerController : MonoBehaviour
 
         } else {
 
+            // adds gravitational forces back
             _rigidbody.useGravity = true;
-            fallForce = 2;
+            fallForce = tempFallForce;
 
+            // moves player back to the game's z axis to stand on platforms
             Vector3 newPosition = transform.position;
-            newPosition.z = 0f; // Set the z position to 3
+            newPosition.z = 0f;
             transform.position = newPosition;
 
             // Allow jump if player is grounded or has not performed double jump
-            if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame )&& (_isGrounded || _jumpCount < numJumps - 1))
+            if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame) && (_isGrounded || _jumpCount < numJumps - 1))
             {
-                _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+                
+                if(_isGrounded)
+                {   
+                    // IF on first jump, apply the full jumpstrength
+                    _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+                } else {
+                    // If doing a double jump, apply half the jumpstrength
+                    // Makes it feel less like you can fly
+                    _rigidbody.AddForce(Vector3.up * (jumpStrength / 1.9f), ForceMode.Impulse);
+                }
                 _facingDirection = Vector3.up;
                 _jumpCount++;
             }
@@ -209,6 +226,7 @@ public class PlayerController : MonoBehaviour
 
         // Check if player is grounded
         _isGrounded = IsGrounded();
+
         if (_isGrounded)
         {
             _jumpCount = 0;
@@ -227,19 +245,11 @@ public class PlayerController : MonoBehaviour
         {
             // No movement input, we should decelerate
             Vector3 curVelocity = _rigidbody.velocity;
+            
             // Apply the deceleration force (on the x-axis only) via a Lerp
-            if (_isGrounded)
-            {
-                _rigidbody.velocity =
-                    Vector3.Lerp(curVelocity, new Vector3(0, curVelocity.y, curVelocity.z),
-                        deceleration * Time.fixedDeltaTime);
-            }
-            else
-            {
-                _rigidbody.velocity =
-                    Vector3.Lerp(curVelocity, new Vector3(0, curVelocity.y, curVelocity.z),
-                        (deceleration * inAirDecelerationPercent) * Time.fixedDeltaTime);
-            }
+            _rigidbody.velocity =
+            Vector3.Lerp(curVelocity, new Vector3(0, curVelocity.y, curVelocity.z),
+            deceleration * Time.fixedDeltaTime);
         }
         else
         {
@@ -259,6 +269,19 @@ public class PlayerController : MonoBehaviour
     /// <returns> True if the player is grounded, false otherwise </returns>
     bool IsGrounded()
     {
+
+        CapsuleCollider groundCollider;
+
+        // Check if the material is not null to pick the collider that is frictionless
+        if (_capsuleColliders[0].material != null)
+        {
+           groundCollider = _capsuleColliders[0];
+        }
+        else
+        {
+           groundCollider = _capsuleColliders[1];
+        }
+
         // The position, height, and radius of the capsule's collider.
         Vector3 capsulePosition = _capsuleColliders[0].transform.position;
         float capsuleHeight = _capsuleColliders[0].height;

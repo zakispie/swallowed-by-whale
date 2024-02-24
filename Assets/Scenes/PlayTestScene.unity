@@ -1029,26 +1029,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18c23be41286ae449b8e1f82211bf72c, type: 3}
---- !u!1 &203563015 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1284992863441399124, guid: cfd65efc6f4ca4f33814b66834698589,
-    type: 3}
-  m_PrefabInstance: {fileID: 6321273221196482049}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &203563016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203563015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72fe94c798581f947ae3c9ac440abc12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 5
-  healthBar: {fileID: 1527667455}
 --- !u!1001 &203957579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6624,11 +6604,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1191644019013793383, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: maxHealth
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1284992863441399124, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: m_Name
@@ -6636,53 +6611,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1525133937074139008, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
-      propertyPath: m_Center.y
-      value: 0.2
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2160410621258414875, guid: cfd65efc6f4ca4f33814b66834698589,
+    - target: {fileID: 1684610893144181410, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
-      propertyPath: coolDownBar
+      propertyPath: healthBar
       value: 
-      objectReference: {fileID: 373563428}
+      objectReference: {fileID: 1527667455}
     - target: {fileID: 2160410621258414875, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: cooldownBar
       value: 
       objectReference: {fileID: 373563428}
-    - target: {fileID: 3749633012378699418, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3749633012378699418, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: fallForce
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: climbSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: maxVelocity
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: jumpStrength
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: moveStrength
-      value: 20
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7390780764271409711, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
@@ -6734,15 +6684,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1191644019013793383, guid: cfd65efc6f4ca4f33814b66834698589, type: 3}
+    - target: {fileID: 8217876339928505434, guid: cfd65efc6f4ca4f33814b66834698589,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8217876339928505434, guid: cfd65efc6f4ca4f33814b66834698589,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1284992863441399124, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 203563016}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfd65efc6f4ca4f33814b66834698589, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

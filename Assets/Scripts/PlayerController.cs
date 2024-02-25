@@ -20,12 +20,20 @@ public class PlayerController : MonoBehaviour
     
     // Most Recent Facing Direction Property
     public static Vector3 FacingDirection => _instance._facingDirection;
+
+    // Most Recent Moving Direction Property
+    public static Vector3 MovementDirection => _instance._movementDirection;
     
     // Position Property
     public static Vector3 Position => _instance.transform.position;
+
+    public static PlayerController Instance => _instance;
     
     // HealthBar Component Property
     public static HealthBar HealthBar => _instance._healthBar;
+
+    // Animation Controller Child Property
+    public static Animator AnimationController => _instance._animationController;
 
     // Player's height
     private float _playerHeight;
@@ -92,6 +100,9 @@ public class PlayerController : MonoBehaviour
     // Cache the healthBar component
     private HealthBar _healthBar;
 
+    //Cache the animationController component
+    private Animator _animationController;
+
     // Cache the capsule colliders
     private CapsuleCollider[] _capsuleColliders;
 
@@ -119,6 +130,7 @@ public class PlayerController : MonoBehaviour
         _mouse = Mouse.current;
         _playerHeight = transform.localScale.y;
         tempFallForce = fallForce;
+        _animationController = GetComponentInChildren<Animator>();
     }
 
     /// <summary>
@@ -126,6 +138,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+
+        Debug.Log("Is Grounded: " + _isGrounded);
 
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)
@@ -260,6 +274,7 @@ public class PlayerController : MonoBehaviour
                 Mathf.Clamp(_rigidbody.velocity.x, -maxVelocity, maxVelocity),
                 _rigidbody.velocity.y,
                 Mathf.Clamp(_rigidbody.velocity.z, -maxVelocity, maxVelocity));
+
         }
     }
 
@@ -289,7 +304,7 @@ public class PlayerController : MonoBehaviour
 
         // Check for overlapping colliders below the capsule to determine if it's grounded.
         Collider[] hitColliders = Physics.OverlapCapsule(
-            capsulePosition + new Vector3(0, capsuleHeight / 2 - capsuleRadius, 0),
+            capsulePosition + new Vector3(0, 100 + (capsuleHeight / 2 - capsuleRadius), 0),
             capsulePosition - new Vector3(0, capsuleHeight / 2 - capsuleRadius, 0),
             capsuleRadius, groundLayer);
 
@@ -316,7 +331,7 @@ public class PlayerController : MonoBehaviour
             _isCrouched = true;
         }
 
-        transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
+        //transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
     }
 
     /// <summary>

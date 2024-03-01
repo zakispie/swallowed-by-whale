@@ -31,7 +31,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (FacingDirection.Equals(Vector3.up))
         {
-            Debug.Log("Facing Direction: up");
+            //Debug.Log("Facing Direction: up");
             AnimationController.SetBool("Idle", false);
             AnimationController.SetBool("Run", false);
             AnimationController.SetBool("Crouch", false);
@@ -46,7 +46,7 @@ public class PlayerAnimation : MonoBehaviour
         }
         else if (FacingDirection.Equals(Vector3.left) || FacingDirection.Equals(Vector3.right))
         {
-            Debug.Log("Facing Direction: left or right");
+        //    Debug.Log("Facing Direction: left or right");
             AnimationController.SetBool("Idle", false);
             AnimationController.SetBool("Run", true);
             AnimationController.SetBool("Crouch", false);
@@ -55,7 +55,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if (Keyboard.sKey.isPressed)
         {
-            Debug.Log("Facing Direction: down");
+        //    Debug.Log("Facing Direction: down");
             AnimationController.SetBool("Idle", false);
             AnimationController.SetBool("Run", false);
             AnimationController.SetBool("Crouch", true);

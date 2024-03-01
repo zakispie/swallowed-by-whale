@@ -139,8 +139,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        Debug.Log("Is Grounded: " + _isGrounded);
-
         // When on ladder you can not jump or crouch, rest of movement behavior is same
         if(_onLadder)
         {

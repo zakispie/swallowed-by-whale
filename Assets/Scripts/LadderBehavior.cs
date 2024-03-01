@@ -5,30 +5,54 @@ using UnityEngine;
 public class LadderBehavior : MonoBehaviour
 {
     // Reference to player
-    public GameObject player;
+    private GameObject player;
 
-    public Rigidbody playerRB;
+    private Rigidbody playerRB;
+
+    private bool canEnterLadder;
 
     void Start() {
+        player = GameObject.FindWithTag("Player");
         playerRB = player.GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerEnter(Collider other)
+     void Update()
     {
-
-        // When player is on a ladder, set player variable _onLadder to true
-        if (other.CompareTag("Player"))
+        // Is in ladder's area
+        if (canEnterLadder)
         {
-            PlayerController._onLadder = true;
+            // Player presses 'E' to interact
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                // If on ladder, get off
+                // If not on ladder, get on
+                PlayerController._onLadder = !PlayerController._onLadder;
+                
+                if (PlayerController._onLadder)
+                {
+                    // Stops player's velocity to avoid shooting up when entering out the top
+                    playerRB.velocity = Vector3.zero;
+                }
+            }
         }
-
     }
 
+    // While player is in ladder area
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            canEnterLadder = true;
+        }
+    }
+
+    // When player leaves ladder area
     private void OnTriggerExit(Collider other)
     {
-
+        canEnterLadder = false;
         PlayerController._onLadder = false;
-        playerRB.velocity = Vector3.zero;
 
+        // Stops player's velocity to avoid shooting up when entering out the top
+        playerRB.velocity = Vector3.zero;
     }
 }

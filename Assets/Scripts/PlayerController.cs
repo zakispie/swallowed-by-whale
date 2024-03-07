@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public static Animator AnimationController => _instance._animationController;
 
     // Player's height
-    private float _playerHeight;
+    private float _playerHeightLocalScale;
     
     [Header("Ground Movement")]
     [Tooltip("Movement Strength")] 
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _movementDirection;
 
     // Tracks whether the player is currently grounded
-    private bool _isGrounded;
+    // private bool _isGrounded;
 
     // Tracks whether the player is currently crouching
     private bool _isCrouched = false;
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         _healthBar = GetComponent<HealthBar>();
         _keyboard = Keyboard.current;
         _mouse = Mouse.current;
-        _playerHeight = transform.localScale.y;
+        _playerHeightLocalScale = transform.localScale.y;
         tempFallForce = fallForce;
         _animationController = GetComponentInChildren<Animator>();
     }
@@ -138,49 +138,70 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
-
         // When on ladder you can not jump or crouch, rest of movement behavior is same
-        if(_onLadder)
+        HandleJumpOrLadder();
+        ApplyInputs();
+    }
+
+    /// <summary>
+    /// Handle gravity application
+    /// </summary>
+    void HandleJumpOrLadder()
+    {
+        if (_onLadder)
         {
             // prevents player from being effected by gravity
             _rigidbody.useGravity = false;
             tempFallForce = fallForce;
             fallForce = 0;
             _rigidbody.velocity = Vector3.zero;
-
-            // moves the player character forward onto the ladder
-            // reads to player that the player character is on ladder + allows them to move past platforms on ladder
-            Vector3 newPosition = transform.position;
-            newPosition.z = -1.5f;
-            transform.position = newPosition;
-
-            if (_keyboard.wKey.isPressed) // move up on ladder
-            {
-                transform.position += Vector3.up * climbSpeed * Time.deltaTime;
-            } else if(_keyboard.sKey.isPressed && !_isGrounded) { // move down on ladder if player is not on ground
-                transform.position += Vector3.down * climbSpeed * Time.deltaTime;
-            } else if(_keyboard.sKey.isPressed && _isGrounded) { // crouch if at bottom of ladder and on ground
-                Crouch();
-            } else {
-                StandUp();
-            }
-
-        } else {
-
+        }
+        else
+        {
             // adds gravitational forces back
             _rigidbody.useGravity = true;
             fallForce = tempFallForce;
+        }
 
-            // moves player back to the game's z axis to stand on platforms
-            Vector3 newPosition = transform.position;
-            newPosition.z = 0f;
-            transform.position = newPosition;
+        // If on ladder:
+        // * moves the player character forward onto the ladder
+        // * reads to player that the player character is on ladder + allows them to move past platforms on ladder
+        // If not on ladder:
+        // * moves player back to the game's z axis to stand on platforms
+        Vector3 newPosition = transform.position;
+        newPosition.z = _onLadder ? -1.5f : 0f;
+        transform.position = newPosition;
 
+        var isGrounded = IsGrounded();
+
+        if (_onLadder)
+        {
+            if (_keyboard.wKey.isPressed) // move up on ladder
+            {
+                transform.position += Vector3.up * (climbSpeed * Time.deltaTime);
+            }
+            else if (_keyboard.sKey.isPressed && !isGrounded)
+            {
+                // move down on ladder if player is not on ground
+                transform.position += Vector3.down * (climbSpeed * Time.deltaTime);
+            }
+            else if (_keyboard.sKey.isPressed && isGrounded)
+            {
+                // crouch if at bottom of ladder and on ground
+                Crouch();
+            }
+            else
+            {
+                StandUp();
+            }
+        }
+        else
+        {
             // Allow jump if player is grounded or has not performed double jump
-            if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame) && (_isGrounded || _jumpCount < numJumps - 1))
+            if ((_keyboard.wKey.wasPressedThisFrame || _keyboard.spaceKey.wasPressedThisFrame) && (isGrounded || _jumpCount < numJumps - 1))
             {
                 
-                if(_isGrounded)
+                if(isGrounded)
                 {   
                     // IF on first jump, apply the full jumpstrength
                     _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
@@ -203,7 +224,10 @@ public class PlayerController : MonoBehaviour
                 StandUp();
             }
         }
+    }
 
+    void ApplyInputs()
+    {
         // Handle Inputs
         if (_keyboard.aKey.isPressed)
         {
@@ -226,20 +250,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+        FlipRotationBasedOnFacingDirection();
 
-        if(_facingDirection.x > 0)
-        {
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        } 
-        else if(_facingDirection.x < 0)
-        {
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
-
-        // Check if player is grounded
-        _isGrounded = IsGrounded();
-
-        if (_isGrounded)
+        if (IsGrounded())
         {
             _jumpCount = 0;
         }
@@ -250,6 +263,23 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        ApplyMovementVector();
+    }
+
+    void FlipRotationBasedOnFacingDirection()
+    {
+        if(_facingDirection.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        } 
+        else if(_facingDirection.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+    }
+
+    void ApplyMovementVector()
+    {
         // Initialize movement vector and apply to the rigidbody
         Vector3 movement = _movementDirection * (moveStrength * Time.fixedDeltaTime);
         
@@ -260,8 +290,8 @@ public class PlayerController : MonoBehaviour
             
             // Apply the deceleration force (on the x-axis only) via a Lerp
             _rigidbody.velocity =
-            Vector3.Lerp(curVelocity, new Vector3(0, curVelocity.y, curVelocity.z),
-            deceleration * Time.fixedDeltaTime);
+                Vector3.Lerp(curVelocity, new Vector3(0, curVelocity.y, curVelocity.z),
+                    deceleration * Time.fixedDeltaTime);
         }
         else
         {
@@ -282,7 +312,6 @@ public class PlayerController : MonoBehaviour
     /// <returns> True if the player is grounded, false otherwise </returns>
     bool IsGrounded()
     {
-
         CapsuleCollider groundCollider;
 
         // Check if the material is not null to pick the collider that is frictionless
@@ -329,7 +358,7 @@ public class PlayerController : MonoBehaviour
             _isCrouched = true;
         }
 
-        //transform.localScale = new Vector3(1f, _playerHeight / crouchingHeight, 1f);
+        //transform.localScale = new Vector3(1f, _playerHeightLocalScale / crouchingHeight, 1f);
     }
 
     /// <summary>

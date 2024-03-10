@@ -8,6 +8,17 @@ public class DestroyOnCollision : MonoBehaviour
 {
     [Tooltip("Can this bullet deal damage to the player?")]
     [SerializeField] private bool firedByEnemy;
+
+    [Tooltip("Destroy after delay (in seconds), set to -1 for no timed destruction")] 
+    [SerializeField] private float destroyAfterDelay = -1f;
+
+    /// <summary>
+    /// Initialize destruction of the game object on start
+    /// </summary>
+    void Start()
+    {
+        Destroy(gameObject, destroyAfterDelay);
+    }
     
     private void OnTriggerEnter(Collider other)
     {

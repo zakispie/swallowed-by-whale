@@ -131,7 +131,7 @@ public class GhostBehavior : EnemyBehavior
         {
             if (hit.collider.CompareTag("Player"))
             {
-                PlayerController.HealthBar.TakeDamage(1);
+                PlayerController.Health.TakeDamage(1);
             }
         }
 

@@ -99,15 +99,14 @@ GameObject:
   - component: {fileID: 1525133937074139008}
   - component: {fileID: 1621962243239535831}
   - component: {fileID: 2160410621258414875}
-  - component: {fileID: 6711815080257068983}
-  - component: {fileID: 1684610893144181410}
+  - component: {fileID: 3011184238056715259}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7390780764271409711
 Transform:
   m_ObjectHideFlags: 0
@@ -192,10 +191,10 @@ MonoBehaviour:
   deceleration: 10
   inAirDecelerationPercent: 0.5
   numJumps: 2
-  jumpStrength: 10
+  jumpStrength: 9
   climbSpeed: 20
   crouchingHeight: 2
-  fallForce: 2
+  fallForce: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -289,7 +288,7 @@ MonoBehaviour:
   bulletObject: {fileID: 1075874680844074522, guid: 8eca180926bbf4005b8f27042d6f6ab2,
     type: 3}
   cooldownBar: {fileID: 0}
---- !u!114 &6711815080257068983
+--- !u!114 &3011184238056715259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,25 +297,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284992863441399124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72fe94c798581f947ae3c9ac440abc12, type: 3}
+  m_Script: {fileID: 11500000, guid: 09536fa304c4645348cd23d5e728a09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  healthBar: {fileID: 0}
---- !u!114 &1684610893144181410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284992863441399124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72fe94c798581f947ae3c9ac440abc12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 5
-  healthBar: {fileID: 0}
+  maxHealth: 0
+  healthSlider: {fileID: 0}
 --- !u!1 &1652303367085934868
 GameObject:
   m_ObjectHideFlags: 0

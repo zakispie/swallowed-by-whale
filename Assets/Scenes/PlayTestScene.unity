@@ -6042,15 +6042,15 @@ RectTransform:
   m_GameObject: {fileID: 1527667453}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.8, y: 0.8, z: 14.97}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1746237223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 475, y: 75}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1527667455
 MonoBehaviour:
@@ -6068,7 +6068,7 @@ MonoBehaviour:
   m_Color: {r: 0.14122522, g: 1, b: 0, a: 0.83137256}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6788,13 +6788,13 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
-  m_FillRect: {fileID: 0}
+  m_FillRect: {fileID: 1527667454}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8577,37 +8577,32 @@ PrefabInstance:
     - target: {fileID: 1284992863441399124, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1525133937074139008, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1684610893144181410, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1527667455}
     - target: {fileID: 2160410621258414875, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: cooldownBar
       value: 
       objectReference: {fileID: 373563428}
-    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
+    - target: {fileID: 3011184238056715259, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
-      propertyPath: fallForce
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634829501537193247, guid: cfd65efc6f4ca4f33814b66834698589,
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 1746237224}
+    - target: {fileID: 3011184238056715259, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
-      propertyPath: jumpStrength
-      value: 9
+      propertyPath: maxHealth
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3011184238056715259, guid: cfd65efc6f4ca4f33814b66834698589,
+        type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 1746237224}
     - target: {fileID: 7390780764271409711, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 55.07
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 7390780764271409711, guid: cfd65efc6f4ca4f33814b66834698589,
         type: 3}
@@ -8654,16 +8649,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8217876339928505434, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: m_Height
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8217876339928505434, guid: cfd65efc6f4ca4f33814b66834698589,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8681,7 +8666,7 @@ PrefabInstance:
         type: 3}
       propertyPath: healthSlider
       value: 
-      objectReference: {fileID: 1746237224}
+      objectReference: {fileID: 0}
     - target: {fileID: 2167767785549801763, guid: 009a32116bce04472a9764fd9361d827,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8741,6 +8726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FishermanPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662696401959473476, guid: 009a32116bce04472a9764fd9361d827,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

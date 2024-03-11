@@ -27,7 +27,7 @@ public class DestroyOnCollision : MonoBehaviour
             other.gameObject.GetComponent<Health>().TakeDamage(1);
         } else if (firedByEnemy && other.gameObject.CompareTag("Player"))
         {
-            PlayerController.HealthBar.TakeDamage(1);
+            PlayerController.Health.TakeDamage(1);
         }
 
         Destroy(gameObject);

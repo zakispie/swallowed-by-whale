@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance => _instance;
     
-    // HealthBar Component Property
-    public static HealthBar HealthBar => _instance._healthBar;
+    // Health Component Property
+    public static Health Health => _instance._health;
 
     // Animation Controller Child Property
     public static Animator AnimationController => _instance._animationController;
@@ -97,8 +97,8 @@ public class PlayerController : MonoBehaviour
     // Tracks num jumps player has performed
     private int _jumpCount;
     
-    // Cache the healthBar component
-    private HealthBar _healthBar;
+    // Cache the health component
+    private Health _health;
 
     //Cache the animationController component
     private Animator _animationController;
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         _instance = this;
         _rigidbody = GetComponent<Rigidbody>();
         _capsuleColliders = GetComponents<CapsuleCollider>();
-        _healthBar = GetComponent<HealthBar>();
+        _health = GetComponent<Health>();
         _keyboard = Keyboard.current;
         _mouse = Mouse.current;
         _playerHeightLocalScale = transform.localScale.y;

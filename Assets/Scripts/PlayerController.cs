@@ -24,7 +24,10 @@ public class PlayerController : MonoBehaviour
 
     // Most Recent Moving Direction Property
     public static Vector3 MovementDirection => _instance._movementDirection;
-    
+
+    // Most Recent Crouch Status
+    public static bool IsCrouched => _instance._isCrouched;
+   
     // Position Property
     public static Vector3 Position => _instance.transform.position;
 
@@ -264,7 +267,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        FlipRotationBasedOnFacingDirection();
+        if(!_onLadder)
+        {
+            FlipRotationBasedOnFacingDirection();
+        }
 
         if (IsGrounded())
         {

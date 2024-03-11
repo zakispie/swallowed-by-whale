@@ -18,6 +18,14 @@ public class PlayerAnimation : MonoBehaviour
 
     // Keyboard Property
     private static Keyboard Keyboard => PlayerController.Keyboard;
+
+    // Crouch Detection Property
+    private static bool IsCrouched => PlayerController.IsCrouched;
+
+    // Ladder Detection Property
+    // Note: Change Accessability in PlayerController (?)
+    private static bool OnLadder => PlayerController._onLadder;
+
     #endregion
 
 
@@ -36,6 +44,8 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Run", false);
             AnimationController.SetBool("Crouch", false);
             AnimationController.SetBool("Jump", true);
+            AnimationController.SetBool("CrouchWalk", false);
+            AnimationController.SetBool("Climb", false);
         }
         else if (MovementDirection.Equals(Vector3.zero))
         {
@@ -43,6 +53,8 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Run", false);
             AnimationController.SetBool("Crouch", false);
             AnimationController.SetBool("Jump", false);
+            AnimationController.SetBool("CrouchWalk", false);
+            AnimationController.SetBool("Climb", false);
         }
         else if (FacingDirection.Equals(Vector3.left) || FacingDirection.Equals(Vector3.right))
         {
@@ -51,16 +63,54 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Run", true);
             AnimationController.SetBool("Crouch", false);
             AnimationController.SetBool("Jump", false);
+            AnimationController.SetBool("CrouchWalk", false);
+            AnimationController.SetBool("Climb", false);
         }
 
-        if (Keyboard.sKey.isPressed)
+        if (IsCrouched)
         {
         //    Debug.Log("Facing Direction: down");
-            AnimationController.SetBool("Idle", false);
-            AnimationController.SetBool("Run", false);
-            AnimationController.SetBool("Crouch", true);
-            AnimationController.SetBool("Jump", false);
+            if(MovementDirection.Equals(Vector3.zero))
+            {
+                AnimationController.SetBool("Idle", false);
+                AnimationController.SetBool("Run", false);
+                AnimationController.SetBool("Crouch", true);
+                AnimationController.SetBool("Jump", false);
+                AnimationController.SetBool("CrouchWalk", false);
+                AnimationController.SetBool("Climb", false);
+            } else
+            {
+                AnimationController.SetBool("Idle", false);
+                AnimationController.SetBool("Run", false);
+                AnimationController.SetBool("Crouch", false);
+                AnimationController.SetBool("Jump", false);
+                AnimationController.SetBool("CrouchWalk", true);
+                AnimationController.SetBool("Climb", false);
+            }
         }
+
+        if(OnLadder)
+        {
+            if(Keyboard.wKey.isPressed || Keyboard.sKey.isPressed)
+            {
+                AnimationController.SetBool("Idle", false);
+                AnimationController.SetBool("Run", false);
+                AnimationController.SetBool("Crouch", false);
+                AnimationController.SetBool("Jump", false);
+                AnimationController.SetBool("CrouchWalk", false);
+                AnimationController.SetBool("Climb", true);
+            } else
+            {
+                //if not moving on ladder, pause animation
+                AnimationController.SetBool("Idle", false);
+                AnimationController.SetBool("Run", false);
+                AnimationController.SetBool("Crouch", false);
+                AnimationController.SetBool("Jump", false);
+                AnimationController.SetBool("CrouchWalk", false);
+                AnimationController.SetBool("Climb", true);
+            }
+        }
+
 
         /*else if (MovementDirection.Equals(Vector3.zero))
         {

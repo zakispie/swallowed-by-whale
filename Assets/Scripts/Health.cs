@@ -13,8 +13,6 @@ public class Health : MonoBehaviour
     [Tooltip("Health Slider")]
     [SerializeField] private Slider healthSlider;
 
-    public Slider health;
-    
     // Tracks the current health of the object
     [NonSerialized] public float _currentHealth;
 
@@ -26,7 +24,6 @@ public class Health : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
-       // Debug.Log(health == null);
         _currentHealth -= damage;
         healthSlider.value = _currentHealth / maxHealth;
         

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// Class for handling player inputs & applying physics to the player
@@ -75,6 +76,10 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     [Tooltip("Ground Layer")]
     [SerializeField] private LayerMask groundLayer;
+
+    [Header("UI")]
+    [Tooltip("Slider for displaying power-up duration")]
+    public Slider PowerUpUI;
 
     // Singleton instance of the player controller
     private static PlayerController _instance;
@@ -392,7 +397,28 @@ public class PlayerController : MonoBehaviour
         moveStrength *= 2;
         maxVelocity *= 2;
         deceleration *= 2;
-        yield return new WaitForSeconds(10);
+
+        // Displays in UI how much time is left for this
+        // TODO Abstract UI into own script???
+        float startTime = Time.time;
+        float totalTime = 10f;
+
+        PowerUpUI.gameObject.SetActive(true);
+        PowerUpUI.value = 1f;
+        while (Time.time - startTime < totalTime)
+        {
+            float elapsedTime = Time.time - startTime;
+
+            // Calculate the progress of the powerup (0 to 1) and uses Lerp to make
+            // UI/time progress smoothly
+            float progress = elapsedTime / totalTime;
+            PowerUpUI.value = Mathf.Lerp(1f, 0f, progress);
+
+            // Waits for next frame
+            yield return null;
+        }
+        PowerUpUI.gameObject.SetActive(false);
+
         moveStrength = originalMoveStrength;
         maxVelocity = originalMaxVelocity;
         deceleration = originalDeceleration;

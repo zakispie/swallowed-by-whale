@@ -37,6 +37,7 @@ public class PowerupBehavior : MonoBehaviour
     {
         if (_touchingPlayer && PlayerController.Keyboard.eKey.wasPressedThisFrame)
         {
+            SoundManager.Instance.PlayPowerupSFX();
             CollectPowerup();
         }
     }

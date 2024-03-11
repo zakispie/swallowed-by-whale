@@ -81,6 +81,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Slider for displaying power-up duration")]
     public Slider PowerUpUI;
 
+    [Header("SFX")]
+    [Tooltip("Manages sound for level")]
+    public static SoundManager soundManager;
+
     // Singleton instance of the player controller
     private static PlayerController _instance;
     
@@ -238,16 +242,21 @@ public class PlayerController : MonoBehaviour
         {
             _movementDirection = Vector3.left;
             _facingDirection = Vector3.left;
+
+            SoundManager.Instance.PlayWalkingSFX();
         }
         else if (_keyboard.dKey.isPressed)
         {
             _movementDirection = Vector3.right;
             _facingDirection = Vector3.right;
+
+            SoundManager.Instance.PlayWalkingSFX();
         }
         else
         {
             _movementDirection = Vector3.zero;
         }
+
     }
 
     /// <summary>

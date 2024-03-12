@@ -97,9 +97,6 @@ public class PlayerController : MonoBehaviour
     // Tracks the player's current movement direction
     private Vector3 _movementDirection;
 
-    // Tracks whether the player is currently grounded
-    // private bool _isGrounded;
-
     // Tracks whether the player is currently crouching
     private bool _isCrouched = false;
     
@@ -185,6 +182,8 @@ public class PlayerController : MonoBehaviour
         transform.position = newPosition;
 
         var isGrounded = IsGrounded();
+
+        Debug.Log(isGrounded);
 
         if (_onLadder)
         {
@@ -332,30 +331,15 @@ public class PlayerController : MonoBehaviour
     /// <returns> True if the player is grounded, false otherwise </returns>
     bool IsGrounded()
     {
-        CapsuleCollider groundCollider;
 
-        // Check if the material is not null to pick the collider that is frictionless
-        if (_capsuleColliders[0].material != null)
+        // Casts a ray downwards from the player's position
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.0f, groundLayer))
         {
-           groundCollider = _capsuleColliders[0];
+            return true;
         }
-        else
-        {
-           groundCollider = _capsuleColliders[1];
-        }
+        return false;
 
-        // The position, height, and radius of the capsule's collider.
-        Vector3 capsulePosition = _capsuleColliders[0].transform.position;
-        float capsuleHeight = _capsuleColliders[0].height;
-        float capsuleRadius = _capsuleColliders[0].radius;
-
-        // Check for overlapping colliders below the capsule to determine if it's grounded.
-        Collider[] hitColliders = Physics.OverlapCapsule(
-            capsulePosition + new Vector3(0, 100 + (capsuleHeight / 2 - capsuleRadius), 0),
-            capsulePosition - new Vector3(0, capsuleHeight / 2 - capsuleRadius, 0),
-            capsuleRadius, groundLayer);
-
-        return hitColliders.Length > 0;
     }
 
     /// <summary>

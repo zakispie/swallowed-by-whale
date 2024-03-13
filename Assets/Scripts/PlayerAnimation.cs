@@ -46,8 +46,9 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Jump", true);
             AnimationController.SetBool("CrouchWalk", false);
             AnimationController.SetBool("Climb", false);
+            AnimationController.SetBool("ClimbingIdle", false);
         }
-        else if (MovementDirection.Equals(Vector3.zero))
+        else if (MovementDirection.Equals(Vector3.zero) && !OnLadder)
         {
             AnimationController.SetBool("Idle", true);
             AnimationController.SetBool("Run", false);
@@ -55,6 +56,7 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Jump", false);
             AnimationController.SetBool("CrouchWalk", false);
             AnimationController.SetBool("Climb", false);
+            AnimationController.SetBool("ClimbingIdle", false);
         }
         else if (FacingDirection.Equals(Vector3.left) || FacingDirection.Equals(Vector3.right))
         {
@@ -65,6 +67,7 @@ public class PlayerAnimation : MonoBehaviour
             AnimationController.SetBool("Jump", false);
             AnimationController.SetBool("CrouchWalk", false);
             AnimationController.SetBool("Climb", false);
+            AnimationController.SetBool("ClimbingIdle", false);
         }
 
         if (IsCrouched)
@@ -78,6 +81,7 @@ public class PlayerAnimation : MonoBehaviour
                 AnimationController.SetBool("Jump", false);
                 AnimationController.SetBool("CrouchWalk", false);
                 AnimationController.SetBool("Climb", false);
+                AnimationController.SetBool("ClimbingIdle", false);
             } else
             {
                 AnimationController.SetBool("Idle", false);
@@ -86,6 +90,7 @@ public class PlayerAnimation : MonoBehaviour
                 AnimationController.SetBool("Jump", false);
                 AnimationController.SetBool("CrouchWalk", true);
                 AnimationController.SetBool("Climb", false);
+                AnimationController.SetBool("ClimbingIdle", false);
             }
         }
 
@@ -99,7 +104,8 @@ public class PlayerAnimation : MonoBehaviour
                 AnimationController.SetBool("Jump", false);
                 AnimationController.SetBool("CrouchWalk", false);
                 AnimationController.SetBool("Climb", true);
-            } else
+                AnimationController.SetBool("ClimbingIdle", false);
+            } else if (!Keyboard.wKey.isPressed && !Keyboard.sKey.isPressed)
             {
                 //if not moving on ladder, pause animation
                 AnimationController.SetBool("Idle", false);
@@ -107,18 +113,9 @@ public class PlayerAnimation : MonoBehaviour
                 AnimationController.SetBool("Crouch", false);
                 AnimationController.SetBool("Jump", false);
                 AnimationController.SetBool("CrouchWalk", false);
-                AnimationController.SetBool("Climb", true);
+                AnimationController.SetBool("Climb", false);
+                AnimationController.SetBool("ClimbingIdle", true);
             }
         }
-
-
-        /*else if (MovementDirection.Equals(Vector3.zero))
-        {
-            AnimationController.SetBool("Idle", true);
-            AnimationController.SetBool("Run", false);
-            AnimationController.SetBool("Crouch", false);
-            AnimationController.SetBool("Jump", false);
-        }
-        */
     }
 }

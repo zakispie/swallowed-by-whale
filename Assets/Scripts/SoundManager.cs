@@ -10,34 +10,45 @@ public class SoundManager : MonoBehaviour
     // Read-only instant of SoundManager to access from other scripts
     public static SoundManager Instance => _instance;
 
-    public AudioSource audioSource;
-
     public AudioClip walkingSFX;
     public AudioClip shootingSFX;
     public AudioClip powerupSFX;
 
+    private AudioSource walkingSource;
+    private AudioSource normalSource;
+
     private void Start()
     {
         _instance = this;
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        walkingSource = audioSources[0];
+        walkingSource.clip = walkingSFX;
+        normalSource = audioSources[1];
+
         DontDestroyOnLoad(gameObject);
     }
 
     public void PlayWalkingSFX()
     {
-        if (audioSource.clip != walkingSFX || !audioSource.isPlaying)
+        if (!walkingSource.isPlaying)
         {
-            audioSource.clip = walkingSFX;
-            audioSource.Play();
+            walkingSource.Play();
         }
+    }
+
+    public void StopWalkingSFX()
+    {   
+        walkingSource.Stop();
     }
 
     public void PlayShootingSFX()
     {
-        audioSource.PlayOneShot(shootingSFX);
+        normalSource.PlayOneShot(shootingSFX);
     }
 
     public void PlayPowerupSFX()
     {
-        audioSource.PlayOneShot(powerupSFX);
+        normalSource.PlayOneShot(powerupSFX);
     }
 }

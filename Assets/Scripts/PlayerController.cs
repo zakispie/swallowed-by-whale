@@ -183,8 +183,6 @@ public class PlayerController : MonoBehaviour
 
         var isGrounded = IsGrounded();
 
-        Debug.Log(isGrounded);
-
         if (_onLadder)
         {
             if (_keyboard.wKey.isPressed) // move up on ladder
@@ -239,24 +237,44 @@ public class PlayerController : MonoBehaviour
 
     void ApplyInputs()
     {
+
+        var isGrounded = IsGrounded();
+
         // Handle Inputs
         if (_keyboard.aKey.isPressed)
         {
             _movementDirection = Vector3.left;
             _facingDirection = Vector3.left;
 
-            SoundManager.Instance.PlayWalkingSFX();
+            if(isGrounded)
+            {
+                SoundManager.Instance.PlayWalkingSFX();
+            }
+            else 
+            {
+                Debug.Log("moving in air");
+                SoundManager.Instance.StopWalkingSFX();
+            }
         }
         else if (_keyboard.dKey.isPressed)
         {
             _movementDirection = Vector3.right;
             _facingDirection = Vector3.right;
 
-            SoundManager.Instance.PlayWalkingSFX();
+            if(isGrounded)
+            {
+                SoundManager.Instance.PlayWalkingSFX();
+            } 
+            else 
+            {
+                Debug.Log("moving in air");
+                SoundManager.Instance.StopWalkingSFX();
+            }
         }
         else
         {
             _movementDirection = Vector3.zero;
+            SoundManager.Instance.StopWalkingSFX();
         }
 
     }

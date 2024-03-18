@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class for handling player inputs & applying physics to the player
@@ -439,5 +440,13 @@ public class PlayerController : MonoBehaviour
         moveStrength = originalMoveStrength;
         maxVelocity = originalMaxVelocity;
         deceleration = originalDeceleration;
+    }
+
+    /// <summary>
+    /// Restarts level and brings character back to beginning
+    /// </summary>
+    public void Die()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }

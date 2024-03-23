@@ -149,7 +149,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // When on ladder you can not jump or crouch, rest of movement behavior is same
-        HandleJumpOrLadder();
+        if(!(SoundManager.Instance.inDialougeMode))
+        {
+            HandleJumpOrLadder();
+        }
         ApplyInputs();
     }
 
@@ -253,7 +256,6 @@ public class PlayerController : MonoBehaviour
             }
             else 
             {
-                Debug.Log("moving in air");
                 SoundManager.Instance.StopWalkingSFX();
             }
         }
@@ -268,7 +270,6 @@ public class PlayerController : MonoBehaviour
             } 
             else 
             {
-                Debug.Log("moving in air");
                 SoundManager.Instance.StopWalkingSFX();
             }
         }
@@ -301,7 +302,10 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        ApplyMovementVector();
+        if(!(SoundManager.Instance.inDialougeMode))
+        {
+            ApplyMovementVector();
+        }
     }
 
     void FlipRotationBasedOnFacingDirection()

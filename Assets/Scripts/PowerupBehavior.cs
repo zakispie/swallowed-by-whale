@@ -5,7 +5,8 @@ public class PowerupBehavior : MonoBehaviour
 {
     // TODO abstract to be used in other powerups in the future
     private bool _touchingPlayer;
-    
+    public ParticleSystem pickUPEffect;
+
     /// <summary>
     /// Marks the powerup as touching the player
     /// </summary>
@@ -15,6 +16,8 @@ public class PowerupBehavior : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _touchingPlayer = true;
+            
+            Instantiate(pickUPEffect, transform.position, transform.rotation);
         }
     }
     

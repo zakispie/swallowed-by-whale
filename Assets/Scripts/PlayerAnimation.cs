@@ -77,13 +77,13 @@ public class PlayerAnimation : MonoBehaviour
             }
         }
 
-        Debug.Log("Idle: " + AnimationController.GetBool("Idle")
+        /*Debug.Log("Idle: " + AnimationController.GetBool("Idle")
             + "\nRun: " + AnimationController.GetBool("Run")
             + "\nCrouch: " + AnimationController.GetBool("Crouch")
             + "\nJump: " + AnimationController.GetBool("Jump")
             + "\nCrouchWalk: " + AnimationController.GetBool("CrouchWalk")
             + "\nClimb: " + AnimationController.GetBool("Climb")
-            + "\nClimbingIdle: " + AnimationController.GetBool("ClimbingIdle"));
+            + "\nClimbingIdle: " + AnimationController.GetBool("ClimbingIdle"));*/
     }
 
 

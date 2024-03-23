@@ -31,7 +31,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
 
-        if (PlayerController.Mouse.leftButton.wasPressedThisFrame && _readyToFire)
+        if (PlayerController.Mouse.leftButton.wasPressedThisFrame && _readyToFire && !(SoundManager.Instance.inDialougeMode))
         {
             _readyToFire = false;
             // instantiate a bulletObject and add force

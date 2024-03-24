@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // There's room for improvement in this script.
 public class PowerupBehavior : MonoBehaviour
 {
     // TODO abstract to be used in other powerups in the future
     private bool _touchingPlayer;
-    public ParticleSystem pickUPEffect;
+    [SerializeField] private PlayerController.PowerupType powerupType;
+    // [SerializeField] private GameObject pickUpEffect;
+    // Functionality for particle effect on pickup is here whenever we want to add it, just uncomment
 
     /// <summary>
     /// Marks the powerup as touching the player
@@ -17,7 +20,7 @@ public class PowerupBehavior : MonoBehaviour
         {
             _touchingPlayer = true;
             
-            Instantiate(pickUPEffect, transform.position, transform.rotation);
+           // Instantiate(pickUpEffect, transform.position, transform.rotation);
         }
     }
     
@@ -50,7 +53,7 @@ public class PowerupBehavior : MonoBehaviour
     /// </summary>
     void CollectPowerup()
     {
-        PlayerController.SpeedPowerup();
+        PlayerController.ApplyPowerup(powerupType);
         Destroy(gameObject);
     }
 }

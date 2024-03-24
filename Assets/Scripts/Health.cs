@@ -19,7 +19,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         _currentHealth = maxHealth;
-
+        healthSlider.value = _currentHealth / maxHealth;
     }
     
     public void TakeDamage(float damage)
@@ -31,5 +31,16 @@ public class Health : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Heal(float health)
+    {
+        _currentHealth += health;
+        if (_currentHealth > maxHealth)
+        {
+            _currentHealth = maxHealth;
+        }
+        
+        healthSlider.value = _currentHealth / maxHealth;
     }
 }

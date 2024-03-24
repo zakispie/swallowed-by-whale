@@ -24,6 +24,8 @@ public class Gun : MonoBehaviour
 
     // Adjusts size based on current health
     public Image cooldownBar;
+
+    public static int bulletDamage = 1;
     
     /// <summary>
     /// Handles player input

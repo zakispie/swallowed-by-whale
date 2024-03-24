@@ -10,6 +10,13 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    public enum PowerupType
+    {
+        Speed,
+        Damage,
+        Health
+    }
+    
     #region variables
     // Keyboard Property
     // public static Keyboard Keyboard => _instance._keyboard;
@@ -398,11 +405,39 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Applies speed powerup to the player
+    /// Applies powerup to the player
     /// </summary>
-    public static void SpeedPowerup()
+    public static void ApplyPowerup(PowerupType type)
     {
-        _instance.StartCoroutine(nameof(ApplySpeedPowerup));
+        switch (type)
+        {
+            case PowerupType.Speed:
+                _instance.StartCoroutine(nameof(ApplySpeedPowerup));
+                break;
+            case PowerupType.Damage:
+                _instance.StartCoroutine(nameof(ApplyDamagePowerup));
+                break;
+            case PowerupType.Health:
+                Health.Heal(1); // heals the player for 1
+                break;
+            default:
+                Debug.Log("Unsupported powerup type requested!");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Applies damage powerup, doubling player damage for 10 seconds before returning to normal
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ApplyDamagePowerup()
+    {
+        var originalDamage = Gun.bulletDamage;
+        Gun.bulletDamage *= 2;
+
+        yield return new WaitForSeconds(10);
+        
+        Gun.bulletDamage = originalDamage;
     }
 
     /// <summary>

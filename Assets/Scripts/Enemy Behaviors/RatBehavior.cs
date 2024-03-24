@@ -30,6 +30,8 @@ public class RatBehavior : EnemyBehavior
     [Tooltip("Rat move speed")] [SerializeField]
     private float moveSpeed;
 
+    private Animator animationController; //TEMPORARY
+
     /// <summary>
     /// Assign necessary variables
     /// </summary>
@@ -38,11 +40,16 @@ public class RatBehavior : EnemyBehavior
         // Randomly assign a facing direction
         facingDirection = Random.Range(0f, 1f) > 0.5f ? Vector3.right : Vector3.left;
         currentState = BehaviorState.Wander;
+        animationController = GetComponentInChildren<Animator>();
     }
 
     // Override Method
     protected override void Wander()
     {
+        // Set animations (TEMPORARY)
+        animationController.SetBool("Attack", false);
+        animationController.SetBool("Walk", true);
+
         // Check if the rat can see the player, transition to Chase if so
         if (CanSeePlayer())
         {
@@ -71,11 +78,16 @@ public class RatBehavior : EnemyBehavior
 
         // Move in the current facing direction
         transform.position += facingDirection * (Time.fixedDeltaTime * moveSpeed);
+
     }
 
     // Override Method
     protected override void Chase()
     {
+        // Set animations (TEMPORARY)
+        animationController.SetBool("Attack", false);
+        animationController.SetBool("Walk", true);
+
         // check if we have line of sight to the player by raycasting 
         if (Physics.Raycast(transform.position, PlayerController.Position - transform.position, out var hit,
                 aggroDistance))
@@ -115,6 +127,9 @@ public class RatBehavior : EnemyBehavior
     // Override Method
     protected override void Attack()
     {
+        // Set animations (TEMPORARY)
+        animationController.SetBool("Walk", false);
+        animationController.SetBool("Attack", true);
         if (!attacking)
         {
             attacking = true;

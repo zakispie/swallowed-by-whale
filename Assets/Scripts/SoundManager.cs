@@ -29,7 +29,14 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        _instance = this;
+        if(_instance == null)
+        {
+            _instance = this;
+        } 
+        else
+        {
+            Destroy(gameObject);
+        }
 
         AudioSource[] audioSources = GetComponents<AudioSource>();
         walkingSource = audioSources[0];
@@ -71,7 +78,7 @@ public class SoundManager : MonoBehaviour
 
         clickToContinueText.enabled = true;
 
-        while (!Input.GetMouseButtonDown(0)) // Wait for mouse click
+        while (!Input.GetMouseButtonDown(0))
         {
             yield return null;
         }

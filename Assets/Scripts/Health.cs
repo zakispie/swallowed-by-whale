@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
         
         if (_currentHealth <= 0)
         {
-            Destroy(gameObject);
+            PlayerController.Instance.Die();
         }
     }
 

@@ -53,7 +53,7 @@ public class PowerupBehavior : MonoBehaviour
     /// </summary>
     void CollectPowerup()
     {
-        PlayerController.ApplyPowerup(powerupType);
+        PlayerController.CollectPowerup(powerupType, gameObject);
         Destroy(gameObject);
     }
 }

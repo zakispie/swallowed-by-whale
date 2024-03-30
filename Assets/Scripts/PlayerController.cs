@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
 {
     public enum PowerupType
     {
+        NONE,
         Speed,
         Damage,
-        Health
+        Health,
+        Key
     }
     
     #region variables
@@ -132,6 +134,12 @@ public class PlayerController : MonoBehaviour
     // Cache the mouse
     private Mouse _mouse;
 
+    // Save the held powerup type
+    private PowerupType _heldPowerup;
+    
+    // Save the held powerup gameobject
+    private GameObject _heldPowerupObject;
+
     #endregion
 
     /// <summary>
@@ -248,6 +256,10 @@ public class PlayerController : MonoBehaviour
 
     void ApplyInputs()
     {
+        if (_keyboard.rKey.wasPressedThisFrame)
+        {
+            ApplyPowerup(_heldPowerup);
+        }
 
         var isGrounded = IsGrounded();
 
@@ -404,6 +416,20 @@ public class PlayerController : MonoBehaviour
         transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
+    public static void CollectPowerup(PowerupType type, GameObject powerupObject)
+    {
+        // remove previously held powerup
+        if (_instance._heldPowerupObject != null)
+        {
+            Destroy(_instance._heldPowerupObject);
+        }
+        // new powerup
+        var summonedObj = Instantiate(powerupObject, _instance.gameObject.transform.position + (Vector3.up * 2), Quaternion.identity);
+        summonedObj.transform.parent = _instance.gameObject.transform;
+        _instance._heldPowerupObject = summonedObj;
+        _instance._heldPowerup = type;
+    }
+
     /// <summary>
     /// Applies powerup to the player
     /// </summary>
@@ -412,12 +438,18 @@ public class PlayerController : MonoBehaviour
         switch (type)
         {
             case PowerupType.Speed:
+                _instance._heldPowerup = PowerupType.NONE;
+                Destroy(_instance._heldPowerupObject);
                 _instance.StartCoroutine(nameof(ApplySpeedPowerup));
                 break;
             case PowerupType.Damage:
+                _instance._heldPowerup = PowerupType.NONE;
+                Destroy(_instance._heldPowerupObject);
                 _instance.StartCoroutine(nameof(ApplyDamagePowerup));
                 break;
             case PowerupType.Health:
+                _instance._heldPowerup = PowerupType.NONE;
+                Destroy(_instance._heldPowerupObject);
                 Health.Heal(1); // heals the player for 1
                 break;
             default:

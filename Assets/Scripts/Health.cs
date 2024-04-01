@@ -29,7 +29,14 @@ public class Health : MonoBehaviour
         
         if (_currentHealth <= 0)
         {
-            PlayerController.Instance.Die();
+            if (gameObject.CompareTag("Player"))
+            {
+                PlayerController.Instance.Die();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

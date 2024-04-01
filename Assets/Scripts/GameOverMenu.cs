@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameOverMenu : MonoBehaviour
 {
 
-    public void RestartLevel(int level)
+    public void RestartLevel()
     {
         SceneManager.LoadScene(GameManager.Instance.currLevel);
     }

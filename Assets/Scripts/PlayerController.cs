@@ -113,6 +113,9 @@ public class PlayerController : MonoBehaviour
     // Trakc whether player is currently on a ladder
     public static bool _onLadder = false;
 
+    // Tracks whether the player has the perfusit key
+    public static bool _hasKey = false;
+
     // Tracks num jumps player has performed
     private int _jumpCount;
     

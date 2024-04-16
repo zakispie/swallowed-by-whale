@@ -427,8 +427,9 @@ public class PlayerController : MonoBehaviour
             Destroy(_instance._heldPowerupObject);
         }
         // new powerup
-        var summonedObj = Instantiate(powerupObject, _instance.gameObject.transform.position + (Vector3.up * 2), Quaternion.identity);
+        var summonedObj = Instantiate(powerupObject, _instance.gameObject.transform.position, Quaternion.identity);
         summonedObj.transform.parent = _instance.gameObject.transform;
+        summonedObj.transform.position += Vector3.up * 6;
         _instance._heldPowerupObject = summonedObj;
         _instance._heldPowerup = type;
     }

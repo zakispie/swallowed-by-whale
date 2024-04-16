@@ -17,10 +17,15 @@ public class SoundManager : MonoBehaviour
     public AudioClip shootingSFX;
     public AudioClip powerupSFX;
 
+    public AudioClip[] nonTalkingClips;
+    public AudioClip[] perfumistClips;
+    public AudioClip[] agnesClips;
     private AudioSource walkingSource;
     private AudioSource normalSource;
 
     public bool inDialougeMode;
+
+    public int frequencyLevel;
 
     // Accessibles for the UI
     public TextMeshProUGUI dialougeText;
@@ -49,16 +54,16 @@ public class SoundManager : MonoBehaviour
 
 //---------------------------------------DIAOLOUGE FUNCTIONALITY---------------------------------------//
 
-    public void InitDialouge(string[] texts)
+    public void InitDialouge(string[] texts, string dialougeType)
     {
         inDialougeMode = true;
         dialougeCanvas.enabled = true;
         clickToContinueText.enabled = false;
 
-        StartCoroutine(DisplayTextsSequentially(texts, 0));
+        StartCoroutine(DisplayTextsSequentially(texts, 0, dialougeType));
     }
 
-    private IEnumerator DisplayTextsSequentially(string[] texts, int index)
+    private IEnumerator DisplayTextsSequentially(string[] texts, int index, string dialougeType)
     {
         if (index >= texts.Length)
         {
@@ -72,6 +77,7 @@ public class SoundManager : MonoBehaviour
 
         while (dialougeText.maxVisibleCharacters < texts[index].Length)
         {
+            PlayDialougeSound(dialougeText.maxVisibleCharacters, dialougeType);
             dialougeText.maxVisibleCharacters++;
             yield return new WaitForSeconds(0.05f); // Delay between each character
         }
@@ -84,7 +90,7 @@ public class SoundManager : MonoBehaviour
         }
 
         clickToContinueText.enabled = false;
-        StartCoroutine(DisplayTextsSequentially(texts, index + 1)); // Move to next text
+        StartCoroutine(DisplayTextsSequentially(texts, index + 1, dialougeType)); // Move to next text
     }
 
     public void ExitDialouge()
@@ -92,6 +98,36 @@ public class SoundManager : MonoBehaviour
         inDialougeMode = false;
         dialougeCanvas.enabled = false;
     }
+
+    private void PlayDialougeSound(int currentDisplayedCharacterCount, string dialougeType)
+    {
+      if(currentDisplayedCharacterCount % frequencyLevel == 0)
+      {
+
+        AudioClip[] currTalkingClips;
+        switch (dialougeType)
+        {
+            case "Agnes":
+                currTalkingClips = perfumistClips; //   todo agnesClips;
+                break;
+            case "Perfumist":
+                currTalkingClips = perfumistClips;
+                break;
+            default:
+                currTalkingClips = nonTalkingClips;
+                break;
+        }
+
+        AudioClip soundClip = null;
+        int randomIndex = UnityEngine.Random.Range(0, currTalkingClips.Length);
+        soundClip = currTalkingClips[randomIndex];
+
+        normalSource.pitch = UnityEngine.Random.Range(0.9f, 1.2f);
+
+        normalSource.PlayOneShot(soundClip);
+      }
+    }
+
 
 
 //-----------------------------------------SFX FUNCTIONALITY------------------------------------------//

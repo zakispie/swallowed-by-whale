@@ -38,7 +38,7 @@ public class PerfumistDialouge : MonoBehaviour
 
             }
 
-            SoundManager.Instance.InitDialouge(dialouge.ToArray());
+            SoundManager.Instance.InitDialouge(dialouge.ToArray(), "Perfumist");
             hasMet = true;
         }
     }

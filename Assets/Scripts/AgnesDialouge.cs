@@ -58,7 +58,7 @@ public class AgnesDialouge : MonoBehaviour
 
             }
 
-            SoundManager.Instance.InitDialouge(dialouge.ToArray());
+            SoundManager.Instance.InitDialouge(dialouge.ToArray(), "Agnes");
             hasMet = true;
         }
     }

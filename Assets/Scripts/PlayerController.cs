@@ -426,12 +426,15 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(_instance._heldPowerupObject);
         }
+
         // new powerup
         var summonedObj = Instantiate(powerupObject, _instance.gameObject.transform.position, Quaternion.identity);
         summonedObj.transform.parent = _instance.gameObject.transform;
         summonedObj.transform.position += Vector3.up * 6;
         _instance._heldPowerupObject = summonedObj;
         _instance._heldPowerup = type;
+
+        ApplyPowerup(type);
     }
 
     /// <summary>
@@ -496,6 +499,7 @@ public class PlayerController : MonoBehaviour
         float startTime = Time.time;
         float totalTime = 10f;
 
+        Debug.Log("powerupui set active");
         PowerUpUI.gameObject.SetActive(true);
         PowerUpUI.value = 1f;
         while (Time.time - startTime < totalTime)

@@ -6,6 +6,7 @@ public class DialougeTrigger : MonoBehaviour
 {
 
     public string[] allSceneDialouge;
+    public Sprite playerPortait;
     private bool hasHappenedThisRun;
 
     void Start()
@@ -18,7 +19,7 @@ public class DialougeTrigger : MonoBehaviour
 
         if (other.CompareTag("Player") && !hasHappenedThisRun)
         {
-            SoundManager.Instance.InitDialouge(allSceneDialouge);
+            SoundManager.Instance.InitDialouge(allSceneDialouge, playerPortait);
             hasHappenedThisRun = true;
         }
     }

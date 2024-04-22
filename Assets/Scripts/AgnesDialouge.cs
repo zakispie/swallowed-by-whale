@@ -13,6 +13,7 @@ public class AgnesDialouge : MonoBehaviour
     public List<string> hasNoKeyDialouge;
     public List<string> stillLookingDialouge;
     public List<string> foundKeyDialouge;
+    public Sprite agnesPortrait;
 
     private bool hasMet;
     private bool inConvo;
@@ -58,7 +59,7 @@ public class AgnesDialouge : MonoBehaviour
 
             }
 
-            SoundManager.Instance.InitDialouge(dialouge.ToArray());
+            SoundManager.Instance.InitDialouge(dialouge.ToArray(), agnesPortrait);
             hasMet = true;
         }
     }

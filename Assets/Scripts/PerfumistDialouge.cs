@@ -6,6 +6,7 @@ public class PerfumistDialouge : MonoBehaviour
 {
     public List<string> foundDialouge;
     public List<string> hasMetDialouge;
+    public Sprite perfumistPortrait;
 
     private bool hasMet;
     private bool inConvo;
@@ -38,8 +39,9 @@ public class PerfumistDialouge : MonoBehaviour
 
             }
 
-            SoundManager.Instance.InitDialouge(dialouge.ToArray());
+            SoundManager.Instance.InitDialouge(dialouge.ToArray(), perfumistPortrait);
             hasMet = true;
+            PlayerController._hasKey = true;
         }
     }
 

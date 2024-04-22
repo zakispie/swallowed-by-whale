@@ -26,6 +26,7 @@ public class SoundManager : MonoBehaviour
     public TextMeshProUGUI dialougeText;
     public Canvas dialougeCanvas;
     public Text clickToContinueText;
+    public Image portraitImage;
 
     private void Start()
     {
@@ -49,11 +50,12 @@ public class SoundManager : MonoBehaviour
 
 //---------------------------------------DIAOLOUGE FUNCTIONALITY---------------------------------------//
 
-    public void InitDialouge(string[] texts)
+    public void InitDialouge(string[] texts, Sprite portrait)
     {
         inDialougeMode = true;
         dialougeCanvas.enabled = true;
         clickToContinueText.enabled = false;
+        portraitImage.sprite = portrait;
 
         StartCoroutine(DisplayTextsSequentially(texts, 0));
     }

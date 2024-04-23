@@ -8,7 +8,7 @@ public class GameOverMenu : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(GameManager.Instance.currLevel);
+        SceneManager.LoadScene("Level1");
     }
 
     public void GoToMainMenu()
